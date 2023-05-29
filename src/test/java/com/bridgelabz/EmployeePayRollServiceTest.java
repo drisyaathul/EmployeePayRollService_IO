@@ -65,5 +65,8 @@ public class EmployeePayRollServiceTest {
         employeePayRollService.writeData(IOService.FILE_IO);
         employeePayRollService.readData(IOService.FILE_IO);
 
+        long count = employeePayRollService.countEntries(IOService.FILE_IO);
+        System.out.println("Total no of Entries is :- " +count);
+        Assertions.assertEquals(3, count);
     }
 }
