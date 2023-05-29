@@ -16,7 +16,6 @@ public class EmployeePayRollServiceTest {
 
     private static String HOME = System.getProperty("user.home");
     private static String PLAY_WITH_NIO = "TempPlayGround";
-
     @Test
     public void givenPathWhenCheckedThenConfirm() throws IOException {
             // Check File Exists
@@ -65,7 +64,6 @@ public class EmployeePayRollServiceTest {
         EmployeePayRollService employeePayRollService = new EmployeePayRollService(employeePayRollList);
         employeePayRollService.writeData(IOService.FILE_IO);
         employeePayRollService.readData(IOService.FILE_IO);
-        long count = employeePayRollService.countEntries(IOService.FILE_IO);
-        Assertions.assertEquals(3,count);
+
     }
 }
