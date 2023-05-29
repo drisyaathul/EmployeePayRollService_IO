@@ -1,6 +1,6 @@
 package com.bridgelabz;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,28 +13,47 @@ public class EmployeePayRollService {
     }
     public EmployeePayRollService() {
     }
-    public void readEmployeePayRollData(Scanner scannerReader) {
+    public PayRollService getPayrollService(IOService ioType) {
 
-        System.out.println("Enter the Employee Id: ");
-        int id = scannerReader.nextInt();
-        System.out.println("Enter the Employee Name: ");
-        String name = scannerReader.next();
-        System.out.println("Enter the Salary: ");
-        double salary = scannerReader.nextDouble();
-
-        employeePayRollList.add(new EmployeePayRoll(id,name,salary));
+        PayRollService payrollService;
+        if (IOService.FILE_IO.equals(ioType)) {
+            payrollService = new FileIOImpl();
+        } else if (IOService.DATABASE_IO.equals(ioType)) {
+            payrollService = new DataBaseIOImpl();
+        } else if (IOService.CONSOLE_IO.equals(ioType)) {
+            payrollService = new ConsoleIOImpl();
+        } else {
+            payrollService = new CloudIOImpl();
+        }
+        return payrollService;
     }
-    public void writeEmployeePayRollData() {
+    public void readData (IOService ioType) {
 
-        System.out.println("Writing Employee Pay Roll Roaster to Console \n"+employeePayRollList);
+        PayRollService payrollService = getPayrollService(ioType);
+        try {
+            payrollService.readData();
+        } catch (IOException e) {
+            System.out.println("catch block");
+        }
     }
-    public static void main(String[] args) {
+    public void writeData(IOService ioType) {
 
-        ArrayList<EmployeePayRoll> employeePayRollList = new ArrayList<>();
-        EmployeePayRollService employeePayRollService = new EmployeePayRollService(employeePayRollList);
-        Scanner scannerReader = new Scanner(System.in);
-        employeePayRollService.readEmployeePayRollData(scannerReader);
-        employeePayRollService.writeEmployeePayRollData();
+        // Abstraction
+        PayRollService payrollService = getPayrollService(ioType);
+        try {
+            payrollService.writeData(employeePayRollList);
+        } catch (IOException e) {
+            System.out.println("catch block");
+        }
+    }
+    public Long countEntries(IOService ioType) {
+        PayRollService payrollService = getPayrollService(ioType);
+        try {
+            return payrollService.countEntries();
+        } catch (IOException e) {
+            System.out.println("catch block");
+        }
+        return null;
     }
 }
 
