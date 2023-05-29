@@ -63,6 +63,7 @@ public class EmployeePayRollServiceTest {
 
         EmployeePayRollService employeePayRollService = new EmployeePayRollService(employeePayRollList);
         employeePayRollService.writeData(IOService.FILE_IO);
+
         employeePayRollService.readData(IOService.FILE_IO);
 
         long count = employeePayRollService.countEntries(IOService.FILE_IO);
